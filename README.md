@@ -32,6 +32,9 @@ Want to test your project on your phone?
 3. **Voila!** You’re now mobile-testing your learning app on the go.
 
 ---
+<img width="139" alt="image" src="https://github.com/user-attachments/assets/674c9459-eb6e-4cd8-ae22-4962fed9df88" />
+<img width="188" alt="image" src="https://github.com/user-attachments/assets/679fc695-7c9e-40aa-bec8-f4fcbc8316f3" />
+
 
 ## 🛠️ How to Rebuild This UI Using Rork.app
 
