@@ -1,8 +1,12 @@
-Coffee and Code At the Technical University Of Kenya
-🧾 Product Requirements Prompt
-Use the following prompt to generate a Product Requirements Document (PRD) for this project:
+# Coffee and Code At the Technical University Of Kenya
 
-📌 Prompt for Backend
+# 🧾 Product Requirements Prompt
+
+Use the following prompt to generate a **Product Requirements Document (PRD)** for this project:
+
+---
+## 📌 Prompt for Backend
+```
 Create a detailed Product Requirements Document (PRD) for a minimalistic Node.js-based API service that integrates with the **Safaricom M-PESA STK Push** payment gateway in a **sandbox environment**.
 
 ### 🔒 Constraints
@@ -53,7 +57,9 @@ Create a detailed Product Requirements Document (PRD) for a minimalistic Node.js
 
 ---
 
-Prompt for Frontend
+```
+### Prompt for Frontend
+```
 Generate a detailed Product Requirements Document (PRD) for a React-based web application called **Coffee Kiosk** that enables users to purchase coffee using Safaricom M-PESA STK Push. The app features a simple UI for displaying coffee products and a modal payment form triggered on "Buy with M-PESA."
 
 The PRD should include the following sections:
@@ -101,3 +107,6 @@ Explain the flow from selecting a product to completing a payment.
 - Backend must be running and properly configured for M-PESA sandbox.
 - Only Kenyan Safaricom numbers are supported.
 - Product pricing is static and defined client-side.
+
+```
+Paste this prompt into your preferred AI writing tool to generate a comprehensive PRD tailored to this service architecture.
