@@ -2,7 +2,8 @@
 import axios from "axios";
 import { formatPhoneForApi } from "./validators";
 
-const API_BASE_URL = "http://localhost:3000";
+//const API_BASE_URL = "http://localhost:3000";
+export const API_BASE_URL = "http://localhost:3000";
 
 interface PaymentRequest {
   phone: string;
@@ -22,38 +23,46 @@ interface PaymentResponse {
  * @param amount The amount to charge in KES
  * @returns Promise with payment response
  */
-export const initiatePayment = async (
-  phone: string,
-  amount: number
-): Promise<PaymentResponse> => {
+export async function initiatePayment(phone, amount) {
   try {
-    // Format the phone number for the API
     const formattedPhone = formatPhoneForApi(phone);
-    
-    const response = await axios.post<PaymentResponse>(`${API_BASE_URL}/pay`, {
-      phone: formattedPhone,
-      amount: amount,
+    const res = await fetch(`${API_BASE_URL}/pay`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: formattedPhone, amount }),
     });
-    
-    return response.data;
-  } catch (error) {
-    console.error("Payment request failed:", error);
-    
-    if (axios.isAxiosError(error)) {
-      // Handle API errors
-      const errorMessage = error.response?.data?.message || 
-                          "Failed to connect to payment service";
-      
-      return {
-        success: false,
-        message: errorMessage,
-      };
+    const data = await res.json();
+    if (res.ok && data.CheckoutRequestID) {
+      return { success: true, checkoutRequestId: data.CheckoutRequestID };
     }
-    
-    // Handle other errors
-    return {
-      success: false,
-      message: "An unexpected error occurred while processing your payment",
-    };
+    return { success: false, message: data.error || 'Failed to initiate payment' };
+  } catch (error) {
+    return { success: false, message: error.message || 'Network error' };
   }
-};
+}
+
+export async function register(username, password) {
+  const res = await fetch(`${API_BASE_URL}/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  });
+  return res.json();
+}
+
+export async function login(username, password) {
+  const res = await fetch(`${API_BASE_URL}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  });
+  return res.json();
+}
+
+export function saveToken(token) {
+  localStorage.setItem('token', token);
+}
+
+export function getToken() {
+  return localStorage.getItem('token');
+}

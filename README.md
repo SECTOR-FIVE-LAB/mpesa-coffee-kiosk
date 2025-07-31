@@ -110,3 +110,123 @@ Explain the flow from selecting a product to completing a payment.
 
 ```
 Paste this prompt into your preferred AI writing tool to generate a comprehensive PRD tailored to this service architecture.
+
+# M-PESA STK Push API Service
+
+A minimalistic Node.js API for integrating with Safaricom's M-PESA STK Push service in sandbox mode.
+
+## Features
+
+- STK Push payment initiation
+- Payment callback handling
+- OAuth token management
+- Environment-based configuration
+- CORS enabled
+- Error handling and logging
+
+## Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+- Safaricom Developer Account credentials
+- ngrok (for local development)
+
+## Setup
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd mpesa-stk-push-api
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory with the following variables:
+   ```env
+   PORT=3000
+   CONSUMER_KEY=your_consumer_key
+   CONSUMER_SECRET=your_consumer_secret
+   PASSKEY=your_lipa_na_mpesa_passkey
+   PAYBILL=174379
+   CALLBACK_URL=https://your-ngrok-url.ngrok.io/callback
+   ```
+
+4. Start ngrok (in a separate terminal):
+   ```bash
+   ngrok http 3000
+   ```
+
+5. Update the `CALLBACK_URL` in your `.env` file with the ngrok URL.
+
+## Running the Server
+
+Development mode (with auto-reload):
+```bash
+npm run dev
+```
+
+Production mode:
+```bash
+npm start
+```
+
+## API Endpoints
+
+### 1. Initiate Payment
+```http
+POST /pay
+Content-Type: application/json
+
+{
+    "phone": "254712345678",
+    "amount": 100
+}
+```
+
+### 2. Payment Callback
+```http
+POST /callback
+```
+Automatically handles M-PESA payment confirmations.
+
+### 3. Health Check
+```http
+GET /health
+```
+
+## Testing
+
+1. Start the server and ngrok
+2. Use Postman or any HTTP client to send a payment request:
+   ```http
+   POST http://localhost:3000/pay
+   Content-Type: application/json
+
+   {
+       "phone": "254712345678",
+       "amount": 100
+   }
+   ```
+3. Monitor the server logs for callback information
+
+## Error Handling
+
+The API includes comprehensive error handling for:
+- Invalid requests
+- M-PESA API errors
+- OAuth token generation failures
+- Callback processing errors
+
+## Security Notes
+
+- Never commit your `.env` file
+- Use HTTPS in production
+- Validate all incoming requests
+- Monitor logs for suspicious activities
+
+## License
+
+MIT

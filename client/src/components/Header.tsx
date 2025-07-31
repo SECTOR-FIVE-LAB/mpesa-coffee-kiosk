@@ -1,8 +1,25 @@
-
 import React from "react";
 import { Coffee } from "lucide-react";
+import { getToken } from "@/lib/api";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  openAuthModal: () => void;
+  isLoggedIn: boolean;
+  onLogout: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ openAuthModal, isLoggedIn, onLogout }) => {
+  const isAdmin = React.useMemo(() => {
+    const token = getToken();
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.isAdmin;
+    } catch {
+      return false;
+    }
+  }, [isLoggedIn]);
+
   return (
     <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-coffee-light/30 shadow-sm">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -12,7 +29,7 @@ const Header: React.FC = () => {
         </div>
         
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
+          <a href="/" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
             Home
           </a>
           <a href="#" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
@@ -24,8 +41,33 @@ const Header: React.FC = () => {
           <a href="#" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
             Contact
           </a>
+          {isLoggedIn && (
+            <a href="/my-orders" className="text-coffee hover:text-mpesa transition-colors font-medium">
+              My Orders
+            </a>
+          )}
+          {isAdmin && (
+            <a href="/admin" className="text-red-600 hover:text-red-700 transition-colors font-medium">
+              Admin
+            </a>
+          )}
+          {/* Login/Logout Button */}
+          {isLoggedIn ? (
+            <button
+              className="text-coffee hover:text-red-600 transition-colors font-medium"
+              onClick={onLogout}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              className="text-coffee hover:text-coffee-dark transition-colors font-medium"
+              onClick={openAuthModal}
+            >
+              Login
+            </button>
+          )}
         </nav>
-        
         <div className="md:hidden">
           <button className="p-2 rounded-md hover:bg-coffee-light/20 transition-colors">
             <svg

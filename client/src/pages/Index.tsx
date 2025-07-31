@@ -4,28 +4,37 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CoffeeCard from "@/components/CoffeeCard";
 import PaymentModal from "@/components/PaymentModal";
+import AuthModal from "@/components/AuthModal";
 import { coffeeProducts, CoffeeProduct } from "@/data/coffeeProducts";
 import { Coffee } from "lucide-react";
 import { Toaster } from "sonner";
+import { getToken, saveToken } from "@/lib/api";
 
 const Index: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<CoffeeProduct | null>(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-  
+  const [authOpen, setAuthOpen] = useState(false);
+  const isLoggedIn = !!getToken();
+
   const handleBuyClick = (product: CoffeeProduct) => {
     setSelectedProduct(product);
     setIsPaymentModalOpen(true);
   };
-  
+
   const closePaymentModal = () => {
     setIsPaymentModalOpen(false);
   };
-  
+
+  const handleLogout = () => {
+    saveToken("");
+    window.location.reload();
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Toaster />
-      <Header />
-      
+      <Header openAuthModal={() => setAuthOpen(true)} isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} />
       <main className="flex-grow">
         {/* Hero section */}
         <section className="relative bg-coffee-dark text-white">
@@ -42,14 +51,12 @@ const Index: React.FC = () => {
             </div>
           </div>
         </section>
-        
         {/* Products section */}
         <section className="container mx-auto px-4 py-12">
           <div className="flex items-center justify-center mb-8">
             <Coffee className="h-8 w-8 text-coffee mr-2" />
             <h2 className="text-2xl md:text-3xl font-bold text-center text-coffee">Our Coffee Selection</h2>
           </div>
-          
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {coffeeProducts.map((product) => (
               <CoffeeCard 
@@ -60,12 +67,10 @@ const Index: React.FC = () => {
             ))}
           </div>
         </section>
-        
         {/* Why Choose Us section */}
         <section className="coffee-pattern py-12">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl md:text-3xl font-bold text-center text-coffee mb-10">Why Choose Coffee Kiosk?</h2>
-            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
                 <div className="bg-coffee-light/30 p-4 rounded-full mb-4">
@@ -76,7 +81,6 @@ const Index: React.FC = () => {
                 <h3 className="text-xl font-semibold mb-2 text-coffee-dark">Fast Service</h3>
                 <p className="text-muted-foreground">Order and pay in seconds with our simple interface and M-PESA integration.</p>
               </div>
-              
               <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
                 <div className="bg-coffee-light/30 p-4 rounded-full mb-4">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-coffee" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -86,7 +90,6 @@ const Index: React.FC = () => {
                 <h3 className="text-xl font-semibold mb-2 text-coffee-dark">Secure Payments</h3>
                 <p className="text-muted-foreground">Pay securely with M-PESA. Your payment information is never stored.</p>
               </div>
-              
               <div className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center">
                 <div className="bg-coffee-light/30 p-4 rounded-full mb-4">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-coffee" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,9 +103,7 @@ const Index: React.FC = () => {
           </div>
         </section>
       </main>
-      
       <Footer />
-      
       <PaymentModal 
         product={selectedProduct}
         isOpen={isPaymentModalOpen}

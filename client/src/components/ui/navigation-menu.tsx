@@ -26,7 +26,7 @@ NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName
 const NavigationMenuList = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <NavigationMenuPrimitive.List
     ref={ref}
     className={cn(
@@ -34,7 +34,18 @@ const NavigationMenuList = React.forwardRef<
       className
     )}
     {...props}
-  />
+  >
+    {children}
+    {/* Login Button */}
+    <NavigationMenuPrimitive.Item>
+      <button
+        className="ml-4 px-4 py-2 rounded bg-mpesa text-white hover:bg-mpesa/90 transition"
+        onClick={() => alert('Show login modal here!')}
+      >
+        Login
+      </button>
+    </NavigationMenuPrimitive.Item>
+  </NavigationMenuPrimitive.List>
 ))
 NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName
 
