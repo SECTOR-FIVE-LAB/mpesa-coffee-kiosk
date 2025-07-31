@@ -290,6 +290,15 @@ app.delete('/admin/orders/:receipt', authMiddleware, adminMiddleware, async (req
   }
 });
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    service: 'coffee-kiosk-backend'
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,0 +1,67 @@
+services:
+  # Frontend React Application
+  - type: web
+    name: coffee-kiosk-frontend
+    env: node
+    buildCommand: cd client && npm install && npm run build
+    startCommand: cd client && npm run preview
+    envVars:
+      - key: VITE_API_URL
+        value: https://coffee-kiosk-backend.onrender.com
+      - key: VITE_MPESA_API_URL
+        value: https://coffee-kiosk-mpesa.onrender.com
+    healthCheckPath: /
+    autoDeploy: true
+
+  # Backend API Server
+  - type: web
+    name: coffee-kiosk-backend
+    env: node
+    buildCommand: cd Backend && npm install
+    startCommand: cd Backend && npm start
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb://localhost:27017/coffee-kiosk
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CONSUMER_KEY
+        sync: false
+      - key: CONSUMER_SECRET
+        sync: false
+      - key: PAYBILL
+        sync: false
+      - key: PASSKEY
+        sync: false
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
+    autoDeploy: true
+
+  # M-Pesa STK Push Service
+  - type: web
+    name: coffee-kiosk-mpesa
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: CONSUMER_KEY
+        sync: false
+      - key: CONSUMER_SECRET
+        sync: false
+      - key: PAYBILL
+        sync: false
+      - key: PASSKEY
+        sync: false
+      - key: CALLBACK_URL
+        value: https://coffee-kiosk-mpesa.onrender.com/callback
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
+    autoDeploy: true
+
+databases:
+  # MongoDB Database
+  - name: coffee-kiosk-db
+    databaseName: coffee-kiosk
+    user: coffee-kiosk-user
+    plan: free 
