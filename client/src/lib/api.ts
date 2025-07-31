@@ -3,7 +3,7 @@ import axios from "axios";
 import { formatPhoneForApi } from "./validators";
 
 //const API_BASE_URL = "http://localhost:3000";
-export const API_BASE_URL = "http://localhost:3000";
+export const API_BASE_URL = "https://mpesa-coffee-kiosk.onrender.com";
 
 interface PaymentRequest {
   phone: string;
