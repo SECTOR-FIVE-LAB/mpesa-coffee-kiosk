@@ -21,7 +21,7 @@ services:
     startCommand: cd Backend && npm start
     envVars:
       - key: MONGODB_URI
-        value: mongodb://localhost:27017/coffee-kiosk
+        value: mongodb+srv://sectorfivelab:ZqawSeOBY91nTEro@cluster0.p0l058p.mongodb.net/coffee-kiosk?retryWrites=true&w=majority&appName=Cluster0
       - key: JWT_SECRET
         generateValue: true
       - key: CONSUMER_KEY
@@ -61,7 +61,5 @@ services:
 
 databases:
   # MongoDB Database
-  - name: coffee-kiosk-db
-    databaseName: coffee-kiosk
-    user: coffee-kiosk-user
+  - name: coffee-kiosk
     plan: free 
