@@ -17,7 +17,7 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/coffee-kiosk', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://sectorfivelab:ZqawSeOBY91nTEro@cluster0.p0l058p.mongodb.net/coffee-kiosk?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
