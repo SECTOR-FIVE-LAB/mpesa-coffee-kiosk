@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ openAuthModal, isLoggedIn, onLogout }) 
           <a href="/" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
             Home
           </a>
-          <a href="#" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
+          {/* <a href="#" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
             Menu
           </a>
           <a href="#" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
@@ -40,8 +40,8 @@ const Header: React.FC<HeaderProps> = ({ openAuthModal, isLoggedIn, onLogout }) 
           </a>
           <a href="#" className="text-coffee hover:text-coffee-dark transition-colors font-medium">
             Contact
-          </a>
-          {isLoggedIn && (
+          </a> */}
+          {isLoggedIn && !isAdmin && (
             <a href="/my-orders" className="text-coffee hover:text-mpesa transition-colors font-medium">
               My Orders
             </a>

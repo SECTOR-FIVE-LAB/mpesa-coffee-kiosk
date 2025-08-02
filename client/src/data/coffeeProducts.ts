@@ -11,7 +11,7 @@ export const coffeeProducts: CoffeeProduct[] = [
     id: 1,
     name: "Espresso",
     description: "Strong and bold single shot of pure coffee essence",
-    price: 1,
+    price: 100,
     image: "https://images.unsplash.com/photo-1595434091143-b375ced5fe5c?q=80&w=450&auto=format&fit=crop"
   },
   {
